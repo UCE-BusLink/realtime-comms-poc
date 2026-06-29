@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stop Alerts</title>
+  <style>
+    .alert { background: #ffebee; padding: 10px; border-left: 5px solid red; margin-bottom: 10px; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <h2>Student App - Real-Time Alerts (Kafka -> RabbitMQ -> WebSocket)</h2>
+  <div id="alerts-container"></div>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:8082');
+
+    ws.onmessage = (e) => {
+      const task = JSON.parse(e.data);
+      const div = document.createElement('div');
+      div.className = 'alert';
+      div.innerHTML = `<strong>⚠️ ATTENTION:</strong> ${task.message} <br><small>${task.timestamp}</small>`;
+      document.getElementById('alerts-container').prepend(div);
+    };
+  </script>
+</body>
+</html>
