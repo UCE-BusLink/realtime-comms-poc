@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webhook Monitor</title>
+</head>
+<body>
+  <h2>Report Monitor (RabbitMQ + Webhook)</h2>
+  <p>Request a report and wait for the external system to notify you...</p>
+  <ul id="notifications"></ul>
+
+  <script>
+    const eventSource = new EventSource('http://localhost:3000/api/stream');
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const li = document.createElement('li');
+      li.innerHTML = `✅ <b>Report Ready:</b> ${data.reportId} <br> 🔗 <a href="#">${data.downloadUrl}</a>`;
+      li.style.color = 'green';
+      document.getElementById('notifications').prepend(li);
+    };
+  </script>
+</body>
+</html>
