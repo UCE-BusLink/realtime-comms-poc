@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Chat</title>
+</head>
+<body>
+  <h2>Chat in real-time — WebSocket</h2>
+  <input id="msg" placeholder="Write a message..." />
+  <button onclick="send()">Send</button>
+  <ul id="chat"></ul>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.onopen = () => console.log('✅ Connection established');
+
+    ws.onmessage = (e) => {
+      const li = document.createElement('li');
+      li.textContent = e.data;
+      document.getElementById('chat').appendChild(li);
+    };
+
+    function send() {
+      const input = document.getElementById('msg');
+      ws.send(input.value);
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
