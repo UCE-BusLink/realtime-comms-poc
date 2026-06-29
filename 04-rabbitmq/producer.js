@@ -5,13 +5,13 @@ async function registerUser(email) {
   const ch = await conn.createChannel();
   await ch.assertQueue('emails_welcome', { durable: true });
 
-  const menssaje = JSON.stringify({
+  const menssage = JSON.stringify({
     to: email,
     subject: 'Welcome to Our Service!',
     timestamp: Date.now()
   });
 
-  ch.sendToQueue('emails_welcome', Buffer.from(menssaje), { persistent: true });
+  ch.sendToQueue('emails_welcome', Buffer.from(menssage), { persistent: true });
   console.log(`📨 Email dispatched for ${email}`);
 
   await ch.close();
