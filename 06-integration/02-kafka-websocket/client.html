@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Kafka + WebSocket</title>
+</head>
+<body>
+  <h2>Monitor of errors — Kafka + WebSocket</h2>
+  <ul id="logs"></ul>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:8081');
+
+    ws.onmessage = (e) => {
+      const log = JSON.parse(e.data);
+      const li = document.createElement('li');
+      li.textContent = `[${log.timestamp}] ${log.service}: ${log.error}`;
+      li.style.color = 'red';
+      document.getElementById('logs').prepend(li);
+    };
+  </script>
+</body>
+</html>
